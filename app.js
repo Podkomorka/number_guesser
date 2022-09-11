@@ -31,35 +31,38 @@ UIgameWrapper.addEventListener('mousedown', function(e){
 UIguessBtn.addEventListener('click', function(){
   let guess = parseInt(UIguessInput.value);
 
+  console.log(guess);
   // Validate the input check not blank, less than min, heigher than max
   if(isNaN(guess) || guess < min || guess > max){
     setMessage(`Please enter a number between ${min} and ${max}`, 'red');
-  }
-
-  // Decrease guess count
-  guessesLeft -= 1;
-
-  // Check if won
-  if(guess === winningNum){
-    // Correct guess
-    guessCorrect(true, `${winningNum} is correct!`);
-    UIguessInput.disabled = true;
-    UIguessBtn.value = 'Play Again';
-    UIguessBtn.className += 'play-again';
+    UIguessInput.value = '';
   } else {
-    if(guessesLeft === 0){
-      // Wrong guess - Game over
-      guessCorrect(false, `Game Over. The correct number was ${winningNum}.`);
+    // Decrease guess count
+    guessesLeft -= 1;
+  
+    // Check if won
+    if(guess === winningNum){
+      // Correct guess
+      guessCorrect(true, `${winningNum} is correct!`);
       UIguessInput.disabled = true;
       UIguessBtn.value = 'Play Again';
       UIguessBtn.className += 'play-again';
     } else {
-      // Wrong guess- Continue
-      guessCorrect(false, `${guess} is not correct. ${guessesLeft} guesses left.`);
-      // Clear Input
-      UIguessInput.value = '';
+      if(guessesLeft === 0){
+        // Wrong guess - Game over
+        guessCorrect(false, `Game Over. The correct number was ${winningNum}.`);
+        UIguessInput.disabled = true;
+        UIguessBtn.value = 'Play Again';
+        UIguessBtn.className += 'play-again';
+      } else {
+        // Wrong guess- Continue
+        guessCorrect(false, `${guess} is not correct. ${guessesLeft} guesses left.`);
+        // Clear Input
+        UIguessInput.value = '';
+      }
     }
   }
+
 });
 
 // 
